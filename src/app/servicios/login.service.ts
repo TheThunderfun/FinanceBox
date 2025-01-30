@@ -1,9 +1,17 @@
 import { Injectable } from '@angular/core';
+import { AuthService } from './auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginService {
+  constructor(private authService: AuthService) {}
 
-  constructor() { }
+  login(email: string, password: string) {
+    this.authService.signIn(email, password);
+  }
+
+  signup(email: string, password: string) {
+    this.authService.signUp(email, password);
+  }
 }
