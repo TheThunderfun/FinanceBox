@@ -1,1 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: "PTSerif-Regular";
+    src: url("assets/PT_Serif/PTSerif-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+body{
+    font-family: "PTSerif-Regular";
+}
+button{
+    font-family: "PTSerif-Regular";
+}
