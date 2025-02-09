@@ -1,0 +1,14 @@
+<div class="form-container">
+  <h3>Agregar Nuevo Concepto</h3>
+  <div >
+    <label>Nombre del Concepto:</label>
+    <input
+      type="text"
+      [(ngModel)]="nuevoConcepto"
+      class="input-field"
+      placeholder="Ej. Venta de productos"
+    />
+  </div>
+ 
+  <button (click)="guardarConcepto()" class="add-btn">Guardar Concepto</button>
+</div>

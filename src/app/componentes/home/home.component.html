@@ -1,19 +1,18 @@
 <h2 style="text-align: center">Movimientos</h2>
 <div class="container">
-  <select [(ngModel)]="monedaSeleccionada" class="input-coin">
+  <!-- <select [(ngModel)]="monedaSeleccionada" class="input-coin">
     <option *ngFor="let moneda of listaMonedas" [value]="moneda">
       {{ moneda }}
     </option>
   </select>
-  <button class="addCoin" (click)="agregarMoneda()">Agregar Moneda</button>
-
+  <button class="addCoin" (click)="agregarMoneda()">Agregar Moneda</button> -->
+  <button class="addConcept" (click)="mostrarMonedas()"> Mostrar Monedas</button>
   <table class="styled-table">
     <thead>
       <tr>
         <th>Fecha</th>
         <th>Concepto</th>
         <th>Valor</th>
-        <th>Moneda</th>
         <th>Acción</th>
       </tr>
     </thead>
@@ -22,38 +21,38 @@
         <td>{{ fila.fecha }}</td>
         <td>{{ fila.concepto }}</td>
         <td>{{ fila.valor }}</td>
-        <td>{{ fila.moneda }}</td>
         <td>
           <button class="delete-btn" (click)="eliminarFila(i)">Eliminar</button>
           <button class="edit-btn" (click)="editarFila(i)">Editar</button>
         </td>
+        <td><input type="text" /></td>
+        <td><input type="number" /></td>
+        <td><button>Agregar Moneda</button></td>
       </tr>
       <tr>
         <td>
           <span>{{ nuevaFila.fecha }}</span>
         </td>
         <td>
-          <input
-            [(ngModel)]="nuevaFila.concepto"
-            type="text"
-            placeholder="Concepto"
-            class="input-field"
-          />
-        </td>
-        <td>
-          <input
-            [(ngModel)]="nuevaFila.valor"
-            type="number"
-            placeholder="Valor"
-            class="input-field"
-          />
-        </td>
-        <td>
-          <select [(ngModel)]="nuevaFila.moneda" class="input-field">
-            <option *ngFor="let moneda of monedas" [value]="moneda">
-              {{ moneda }}
+          <select [(ngModel)]="nuevaFila.concepto" class="input-field">
+            <option *ngFor="let concepto of conceptos" [value]="concepto">
+              {{ concepto }}
             </option>
           </select>
+          <button class="addConcept" (click)="agregarConcepto()">
+            Agregar Concepto
+          </button>
+        </td>
+        <td>
+          <input
+            type="number"
+            [ngModel]="nuevaFila.valor === 0 ? null : nuevaFila.valor"
+            (ngModelChange)="
+              nuevaFila.valor = $event === null || $event === '' ? 0 : $event
+            "
+            class="input-field"
+            placeholder="Ingrese valor"
+          />
         </td>
         <td>
           <button class="add-btn" (click)="agregarFila()">Agregar Fila</button>
@@ -61,8 +60,17 @@
         </td>
       </tr>
     </tbody>
-    <div>
-      <h3>Total en USD del día: {{ obtenerTotal() | currency : "USD" }}</h3>
-    </div>
   </table>
 </div>
+<app-agregar-concepto
+  *ngIf="mostrarAgregarConcepto"
+  (conceptoAgregado)="actualizarConceptos($event)"
+  (cerrarFormulario)="cerrarAgregarConcepto()"
+  [listaConceptos]="conceptos"
+></app-agregar-concepto>
+<!-- <app-monedas
+  *ngIf="mostrarMonedas"
+  (monedaAgregada)="actualizarMonedas($event)"
+  (cerrarFormulario)="cerrarMonedas()"
+  [listaMonedas]="monedas"
+  ></app-monedas> -->

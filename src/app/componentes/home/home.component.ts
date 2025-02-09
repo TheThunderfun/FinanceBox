@@ -3,11 +3,18 @@ import { Component, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import moment from 'moment';
 import { ApiService } from '../../servicios/api.service';
+import { AgregarConceptoComponent } from '../agregar-concepto/agregar-concepto.component';
+import { MonedasComponent } from '../monedas/monedas.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    AgregarConceptoComponent,
+    MonedasComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
@@ -15,33 +22,27 @@ export class HomeComponent {
   constructor(private apiService: ApiService) {
     moment.locale('es');
   }
-  tasaDeCambio: any = {};
+
   filas: {
     fecha: string;
     concepto: string;
     valor: number;
-    moneda: string;
   }[] = [];
-  monedas: string[] = ['USD', 'EUR', 'BRL', 'UYU'];
-  nuevaFila = { fecha: '', concepto: '', valor: 0, moneda: 'USD' };
-  listaMonedas: string[] = [];
+
+  irAMonedas: boolean = true;
+
+  conceptos: string[] = ['Venta USD', 'Compra USD'];
+  nuevaFila = { fecha: '', concepto: '', valor: 0 };
   monedaSeleccionada: string = '';
   editIndex: number | null = null;
+  mostrarAgregarConcepto: boolean = false;
 
-  ngOnInit() {
-    this.apiService.getTasaDeCambio().subscribe((data) => {
-      this.tasaDeCambio = data.rates;
-      this.listaMonedas = Object.keys(this.tasaDeCambio);
-    });
+  agregarConcepto() {
+    this.mostrarAgregarConcepto = true;
   }
 
-  agregarMoneda() {
-    if (
-      this.monedaSeleccionada &&
-      !this.monedas.includes(this.monedaSeleccionada)
-    ) {
-      this.monedas.push(this.monedaSeleccionada);
-    }
+  cerrarAgregarConcepto() {
+    this.mostrarAgregarConcepto = false;
   }
 
   agregarFila() {
@@ -52,7 +53,6 @@ export class HomeComponent {
         fecha: '',
         concepto: '',
         valor: 0,
-        moneda: 'USD',
       };
     }
   }
@@ -65,7 +65,7 @@ export class HomeComponent {
   guardarEdicion() {
     if (this.editIndex !== null) {
       this.filas[this.editIndex] = { ...this.nuevaFila };
-      this.nuevaFila = { fecha: '', concepto: '', valor: 0, moneda: 'USD' };
+      this.nuevaFila = { fecha: '', concepto: '', valor: 0 };
       this.editIndex = null;
     }
   }
@@ -74,15 +74,30 @@ export class HomeComponent {
     this.filas.splice(index, 1);
   }
 
-  convertirADolares(valor: number, moneda: string) {
-    const tasa = this.tasaDeCambio[moneda];
-    return valor / tasa;
+  actualizarConceptos(nuevoConcepto: string) {
+    console.log('nuevoConcepto', nuevoConcepto);
+    this.conceptos.push(nuevoConcepto);
   }
 
-  obtenerTotal() {
-    return this.filas.reduce(
-      (total, fila) => total + this.convertirADolares(fila.valor, fila.moneda),
-      0
-    );
+  getUltimaFila() {
+    return this.filas.length > 0 ? this.filas[this.filas.length - 1] : null;
+  }
+
+  agregarOperacion() {
+    // if (this.getUltimaFila()?.concepto == 'Venta USD') {
+    //   this.filas.push({
+    //     fecha: moment().format('lll'),
+    //     concepto: 'Venta USD',
+    //     valor: this.nuevaFila.valor * this.moneda.valor,
+    //   });
+    // }
+  }
+
+  mostrarMonedas() {
+    this.irAMonedas = true;
+  }
+
+  cerrarMonedas() {
+    this.irAMonedas = false;
   }
 }

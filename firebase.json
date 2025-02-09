@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "public",
+    "public": "dist/finance-box/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
