@@ -62,12 +62,9 @@ export class MovimientosComponent {
   editIndex: number | null = null;
   mostrarAgregarConcepto: boolean = false;
 
-  agregarConcepto() {
-    this.mostrarAgregarConcepto = true;
-  }
 
-  cerrarAgregarConcepto() {
-    this.mostrarAgregarConcepto = false;
+  toggleFormConceptos() {
+    this.mostrarAgregarConcepto = !this.mostrarAgregarConcepto;
   }
 
   agregarFila() {
@@ -148,7 +145,10 @@ export class MovimientosComponent {
       return;
     }
 
-    if (ultimaFila.concepto.nombre === 'Egreso') {
+    if (
+      ultimaFila.concepto.nombre === 'Egreso' &&
+      ultimaFila.concepto.esIngreso == false
+    ) {
       this.monedas[index].cantidad -= ultimaFila.cantidad;
 
       const filaAnterior = this.getUltimaFila(2);
@@ -165,7 +165,10 @@ export class MovimientosComponent {
       } else {
         console.warn('No existe moneda con el nombre de la fila anterior.');
       }
-    } else if (ultimaFila.concepto.nombre === 'Ingreso') {
+    } else if (
+      ultimaFila.concepto.nombre === 'Ingreso' &&
+      ultimaFila.concepto.esIngreso == true
+    ) {
       this.monedas[index].cantidad += ultimaFila.cantidad;
       const filaAnterior = this.getUltimaFila(2);
       if (!filaAnterior) {
@@ -181,6 +184,17 @@ export class MovimientosComponent {
       } else {
         console.warn('No existe moneda con el nombre de la fila anterior.');
       }
+    } else if (
+      ultimaFila.concepto.nombre != 'Ingreso' &&
+      ultimaFila.concepto.esIngreso == true
+    ) {
+      this.monedas[index].cantidad += ultimaFila?.cantidad;
+    } else if (
+      ultimaFila.concepto.nombre != 'Egreso ' &&
+      ultimaFila.concepto.esIngreso == false
+    ) {
+      console.log(ultimaFila);
+      this.monedas[index].cantidad -= ultimaFila?.cantidad;
     }
   }
 
@@ -230,11 +244,7 @@ export class MovimientosComponent {
     }
   }
 
-  mostrarMonedasForm() {
+  toggleFormMonedas() {
     this.mostrarMonedas = !this.mostrarMonedas;
-  }
-
-  cerrarMonedas() {
-    this.mostrarMonedas = false;
   }
 }

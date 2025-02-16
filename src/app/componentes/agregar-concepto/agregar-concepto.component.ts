@@ -20,16 +20,37 @@ export class AgregarConceptoComponent {
 
   nuevoConcepto: Concepto = { nombre: '', esIngreso: false };
 
-  agregarMoneda: boolean = false;
   esGasto: boolean = false;
 
   guardarConcepto() {
-    if (this.agregarMoneda != null) {
-      if (this.esGasto) this.nuevoConcepto.esIngreso = false;
-      this.conceptoAgregado.emit(this.nuevoConcepto);
-    } else {
-      this.conceptoAgregado.emit(this.nuevoConcepto);
+    if (!this.nuevoConcepto.nombre || this.nuevoConcepto.nombre.trim() === '') {
+      alert('Debe ingresar un nombre válido');
+      return;
     }
+
+    if (
+      this.listaConceptos.some(
+        (concepto) =>
+          concepto.nombre.toLowerCase() ===
+          this.nuevoConcepto.nombre.toLowerCase()
+      )
+    ) {
+      console.log(this.listaConceptos);
+      alert('Ya existe un concepto con este nombre');
+      return;
+    }
+
+    if (this.esGasto) {
+      this.nuevoConcepto.esIngreso = false;
+      this.conceptoAgregado.emit(this.nuevoConcepto);
+      alert('Concepto Agregado con exito');
+    } else {
+      this.nuevoConcepto.esIngreso = true;
+      this.conceptoAgregado.emit(this.nuevoConcepto);
+      alert('Concepto Agregado con exito');
+    }
+  }
+  Salir() {
     this.cerrarFormulario.emit();
   }
 }

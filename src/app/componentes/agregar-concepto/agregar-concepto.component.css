@@ -24,16 +24,33 @@
     border-radius: 5px;
   }
   
-  .add-btn {
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745;
-    color: white;
+  .add-btn, .quit-btn {
+    padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-size: 12px;
     cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    margin: 10px 5px;
+    min-width: 120px;
+  }
+  
+  .add-btn {
+    background-color: #28a745; /* Verde */
+    color: white;
   }
   
   .add-btn:hover {
     background-color: #218838;
+    transform: scale(1.05);
+  }
+  
+  .quit-btn {
+    background-color: #dc3545; /* Rojo */
+    color: white;
+  }
+  
+  .quit-btn:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
   }

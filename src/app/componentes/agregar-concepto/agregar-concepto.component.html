@@ -1,16 +1,30 @@
 <div class="form-container">
   <h3>Agregar Nuevo Concepto</h3>
-  <div >
+  <div>
     <label>Nombre del Concepto:</label>
     <input
       type="text"
       [(ngModel)]="nuevoConcepto.nombre"
+      #nombreInput="ngModel"
       class="input-field"
       placeholder="Ej. Venta de productos"
+      required
     />
-    <label>¿Es un egreso?</label> 
-      <input type="checkbox" [(ngModel)]="esGasto" class="checkbox">
+
+    <div *ngIf="nombreInput.invalid && nombreInput.touched" class="error">
+      El nombre es requerido.
+    </div>
+
+    <label>¿Es un egreso?</label>
+    <input type="checkbox" [(ngModel)]="esGasto" class="checkbox" />
   </div>
- 
-  <button (click)="guardarConcepto()" class="add-btn">Guardar Concepto</button>
+
+  <button
+    (click)="guardarConcepto()"
+    class="add-btn"
+    [disabled]="nombreInput.invalid"
+  >
+    Guardar Concepto
+  </button>
+  <button (click)="Salir()" class="quit-btn">Salir</button>
 </div>

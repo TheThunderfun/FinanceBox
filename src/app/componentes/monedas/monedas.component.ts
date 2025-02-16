@@ -26,6 +26,7 @@ export class MonedasComponent implements OnInit {
   @ViewChild('monedaNombre') monedaNombre!: ElementRef;
   @ViewChild('monedaValor') monedaValor!: ElementRef;
   @ViewChild('monedaCantidad') monedaCantidad!: ElementRef;
+  @Output() cerrarFormulario = new EventEmitter<void>();
 
   @Output() monedasActualizadas = new EventEmitter<Moneda[]>();
 
@@ -85,5 +86,9 @@ export class MonedasComponent implements OnInit {
         this.monedaCantidad.nativeElement.value = '';
       }
     }
+  }
+
+  salir() {
+    this.cerrarFormulario.emit();
   }
 }

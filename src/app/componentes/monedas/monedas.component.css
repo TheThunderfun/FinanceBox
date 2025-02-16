@@ -74,3 +74,20 @@
   .save-btn:hover {
     background-color: #b91458;
   }
+
+
+  .salir-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .salir-btn:hover {
+    background-color: darkred;
+  }
