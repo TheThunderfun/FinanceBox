@@ -3,16 +3,22 @@
     <thead>
       <tr>
         <th>Moneda</th>
-        <th>Valor</th>
+        <th>Cantidad</th>
         <th>Accion</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let moneda of monedas; let i = index">
         <td>{{ moneda.nombre }}</td>
-        <td>{{ moneda.valor }}</td>
+        <td>{{ moneda.cantidad }}</td>
         <td>
-          <button class="delete-btn" (click)="borrarMoneda(i)">Eliminar</button>
+          <button
+            class="delete-btn"
+            *ngIf="editandoIndex === null"
+            (click)="borrarMoneda(i)"
+          >
+            Eliminar
+          </button>
           <button
             class="edit-btn"
             *ngIf="editandoIndex !== i"
@@ -30,9 +36,15 @@
         </td>
       </tr>
       <td><input type="text" #monedaNombre placeholder="Nombre" /></td>
-      <td><input type="number" #monedaValor placeholder="Valor" /></td>
       <td>
-        <button class="add-btn" (click)="agregarMoneda(monedaNombre.value, monedaValor.value)">
+        <input type="text" #monedaCantidad placeholder="Cantidad" />
+      </td>
+      <td>
+        <button
+          class="add-btn"
+          *ngIf="editandoIndex == null"
+          (click)="agregarMoneda(monedaNombre.value)"
+        >
           Agregar Moneda
         </button>
       </td>

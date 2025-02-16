@@ -4,10 +4,12 @@
     <label>Nombre del Concepto:</label>
     <input
       type="text"
-      [(ngModel)]="nuevoConcepto"
+      [(ngModel)]="nuevoConcepto.nombre"
       class="input-field"
       placeholder="Ej. Venta de productos"
     />
+    <label>¿Es un egreso?</label> 
+      <input type="checkbox" [(ngModel)]="esGasto" class="checkbox">
   </div>
  
   <button (click)="guardarConcepto()" class="add-btn">Guardar Concepto</button>

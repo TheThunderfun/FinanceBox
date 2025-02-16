@@ -1,0 +1,96 @@
+<h2 style="text-align: center">Movimientos</h2>
+<div class="container">
+  <button class="addConcept" (click)="mostrarMonedasForm()">
+    Mostrar Monedas
+  </button>
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Concepto</th>
+        <th>Moneda</th>
+        <th>Cantidad</th>
+        <th>Cotizacion</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let fila of filas; let i = index">
+        <td>{{ fila.fecha }}</td>
+        <td>{{ fila.concepto.nombre}}</td>
+        <td>{{ fila.moneda }}</td>
+        <td>{{fila.cantidad}}</td>
+        <td>{{ fila.cotizacion }}</td>
+        <td>
+          <button class="delete-btn" (click)="eliminarFila(i)">Eliminar</button>
+          <button class="edit-btn" (click)="editarFila(i)">Editar</button>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <span>{{ nuevaFila.fecha }}</span>
+        </td>
+        <td>
+          <select [(ngModel)]="nuevaFila.concepto" class="input-field">
+            <option *ngFor="let concepto of conceptos" [ngValue]="concepto">
+              {{ concepto.nombre }}
+            </option>
+          </select>
+          <button class="addConcept" (click)="agregarConcepto()">
+            Agregar Concepto
+          </button>
+        </td>
+        <td>
+          <select
+          [(ngModel)]="nuevaFila.moneda"
+          class="input-field"
+          *ngIf="monedas.length > 0"
+          >
+          <option *ngFor="let moneda of monedas" [value]="moneda.nombre">
+            {{ moneda.nombre }}
+          </option>
+        </select>
+      </td>
+      <td>
+        <input
+          type="number"
+          [ngModel]="nuevaFila.cantidad === 0 ? null : nuevaFila.cantidad"
+          (ngModelChange)="
+            nuevaFila.cantidad = $event === null || $event === '' ? 0 : $event
+          "
+          class="input-field"
+          placeholder="Ingrese Cantidad"
+        />
+      </td>
+      <td>
+        <input
+          type="number"
+          [ngModel]="nuevaFila.cotizacion === 0 ? null : nuevaFila.cotizacion"
+          (ngModelChange)="
+            nuevaFila.cotizacion = $event === null || $event === '' ? 0 : $event
+          "
+          class="input-field"
+          placeholder="Ingrese cotizacion"
+        />
+      </td>
+        <td>
+          <button class="add-btn" (click)="agregarFila()">Agregar Fila</button>
+          <button class="save-btn" (click)="guardarEdicion()">Guardar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<app-agregar-concepto
+  *ngIf="mostrarAgregarConcepto"
+  (conceptoAgregado)="actualizarConceptos($event)"
+  (cerrarFormulario)="cerrarAgregarConcepto()"
+  [listaConceptos]="conceptos"
+></app-agregar-concepto>
+<app-monedas
+  *ngIf="mostrarMonedas"
+  (cerrarFormulario)="cerrarMonedas()"
+  (monedasActualizadas)="actualizarMonedas($event)"
+></app-monedas>

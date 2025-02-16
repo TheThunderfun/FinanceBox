@@ -9,7 +9,7 @@ export class MonedaService {
   constructor() {}
 
   private monedaSubject = new BehaviorSubject<Moneda[]>([
-    { nombre: 'USD', valor: 1200 },
+    { nombre: 'ARS', cantidad: 0 },
   ]);
   monedas$ = this.monedaSubject.asObservable();
 

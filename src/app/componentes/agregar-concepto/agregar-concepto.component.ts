@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+export interface Concepto {
+  nombre: string;
+  esIngreso: boolean;
+}
 
 @Component({
   selector: 'app-agregar-concepto',
@@ -10,27 +14,22 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './agregar-concepto.component.css',
 })
 export class AgregarConceptoComponent {
-  @Input() listaConceptos: string[] = [];
-  @Output() conceptoAgregado = new EventEmitter<string>();
+  @Input() listaConceptos: Concepto[] = [];
+  @Output() conceptoAgregado = new EventEmitter<Concepto>();
   @Output() cerrarFormulario = new EventEmitter<void>();
 
-  nuevoConcepto: string = '';
-  moneda: { nombre: string; valor: number } = { nombre: '', valor: 0 };
+  nuevoConcepto: Concepto = { nombre: '', esIngreso: false };
+
   agregarMoneda: boolean = false;
+  esGasto: boolean = false;
 
   guardarConcepto() {
-    console.log('Venta de ' + this.moneda.nombre);
-    console.log('valor:' + this.agregarMoneda.valueOf());
-    if (this.agregarMoneda) {
-      this.conceptoAgregado.emit('Venta de ' + this.moneda.nombre);
-      this.conceptoAgregado.emit('Compra de ' + this.moneda.nombre);
+    if (this.agregarMoneda != null) {
+      if (this.esGasto) this.nuevoConcepto.esIngreso = false;
+      this.conceptoAgregado.emit(this.nuevoConcepto);
     } else {
       this.conceptoAgregado.emit(this.nuevoConcepto);
     }
-
-    this.nuevoConcepto = '';
-    this.moneda = { nombre: '', valor: 0 };
-    this.agregarMoneda = false;
-    // this.cerrarFormulario.emit();
+    this.cerrarFormulario.emit();
   }
 }
